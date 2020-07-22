@@ -6,6 +6,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Route is the type for all routes containing name, CRUD method, pattern and handlerfunc
 type Route struct {
 	Name        string
 	Method      string
@@ -13,8 +14,10 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
+// Routes is an array of Route
 type Routes []Route
 
+// NewRouter if a func to create a new router handling the routes created below
 func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 	for _, route := range routes {
@@ -57,5 +60,4 @@ var routes = Routes{
 		"DELETE",
 		"/customers/{customerId}",
 		deleteCustomer,
-	},
-}
+	}}

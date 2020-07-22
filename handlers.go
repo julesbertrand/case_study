@@ -27,7 +27,7 @@ func getCustomers(w http.ResponseWriter, r *http.Request) {
 
 func getCustomer(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	inputItemID := getId(r, "customerId")
+	inputItemID := getID(r, "customerId")
 
 	var item Customer
 	db.First(&item, inputItemID)
@@ -41,7 +41,7 @@ func getCustomer(w http.ResponseWriter, r *http.Request) {
 func updateCustomer(w http.ResponseWriter, r *http.Request) {
 	var item Customer
 	json.NewDecoder(r.Body).Decode(&item)
-	item.CustomerID = getId(r, "customerId")
+	item.CustomerID = getID(r, "customerId")
 	fmt.Printf("%+v\n", item)
 	db.Save(&item)
 
@@ -51,7 +51,7 @@ func updateCustomer(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteCustomer(w http.ResponseWriter, r *http.Request) {
-	idToDelete := getId(r, "customerId")
+	idToDelete := getID(r, "customerId")
 	var item Customer
 	db.First(&item, idToDelete)
 	if item.Email == "" && item.CustomerID == 0 {
@@ -83,7 +83,7 @@ func getPlans(w http.ResponseWriter, r *http.Request) {
 
 func getPlan(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	inputItemID := getId(r, "planId")
+	inputItemID := getID(r, "planId")
 
 	var item Plan
 	db.First(&item, inputItemID)
@@ -97,7 +97,7 @@ func getPlan(w http.ResponseWriter, r *http.Request) {
 func updatePlan(w http.ResponseWriter, r *http.Request) {
 	var item Plan
 	json.NewDecoder(r.Body).Decode(&item)
-	item.PlanID = getId(r, "planId")
+	item.PlanID = getID(r, "planId")
 	fmt.Printf("%+v\n", item)
 	db.Save(&item)
 
@@ -107,7 +107,7 @@ func updatePlan(w http.ResponseWriter, r *http.Request) {
 }
 
 func deletePlan(w http.ResponseWriter, r *http.Request) {
-	idToDelete := getId(r, "planId")
+	idToDelete := getID(r, "planId")
 	var item Plan
 	db.First(&item, idToDelete)
 	if item.PlanName == "" && item.PlanID == 0 {

@@ -26,14 +26,27 @@ func getID(r *http.Request, idField string) uint {
 	return idToReturn
 }
 
-func connectDB() {
+func initDB(username string, password string, dbName string) {
 	var err error
-	dataSourceName := "root:JH7WhS6c%%@tcp(localhost:3306)/customers_db?parseTime=True"
+	dataSourceName := username + ":" + password + "@tcp(localhost:3306)/" + "?parseTime=True"
 	db, err = gorm.Open("mysql", dataSourceName)
-
 	errorCheck(err)
 
-	fmt.Println("Succesfully connected to MySQL database")
+	db.Exec("CREATE DATABASE " + dbName)
+	db.Exec("USE " + dbName)
+}
+
+func connectDB(dbName string) {
+	var err error
+	dataSourceName := "root:JH7WhS6c%%@tcp(localhost:3306)/" + dbName + "?parseTime=True"
+	db, err = gorm.Open("mysql", dataSourceName)
+
+	if err != nil {
+		initDB("root", "JH7WhS6c%%", dbName)
+		fmt.Printf("Succesfully created MySQL database: %v", dbName)
+	} else {
+		fmt.Printf("Succesfully connected to MySQL database: %v", dbName)
+	}
 
 	db.AutoMigrate(&Customer{}, &Plan{})
 }
@@ -41,7 +54,7 @@ func connectDB() {
 func main() {
 	router := NewRouter()
 
-	connectDB()
+	connectDB("customers_db")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

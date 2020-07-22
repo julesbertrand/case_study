@@ -17,7 +17,7 @@ type Customer struct {
 type Plan struct {
 	// gorm.Model
 	PlanID       uint      `json:"planId" gorm:"primary_key"`
-	PlanName     string    `json:"name"`
+	PlanName     string    `json:"name" binding:"required"`
 	Price        float32   `json:"price"`
 	CreationDate time.Time `json:"creationDate"`
 	Frequency    string    `json:"frequency"`

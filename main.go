@@ -4,20 +4,12 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
+	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
-
-// type Customer struct {
-// 	// gorm.Model
-// 	CustomerID  uint      `json:"customerId" gorm:"primary_key"`
-// 	FirstName   string    `json:"firstName"`
-// 	LastName    string    `json:"lastName"`
-// 	Email       string    `json:"email"`
-// 	CreatedAt   time.Time `json:"createdAt"`
-// 	CountryCode string    `json:"countryCode"`
-// }
 
 var db *gorm.DB
 
@@ -27,7 +19,7 @@ func errorCheck(err error) {
 	}
 }
 
-func getId(r *http.Request, idField string) uint {
+func getID(r *http.Request, idField string) uint {
 	params := mux.Vars(r)
 	id64, _ := strconv.ParseUint(params[idField], 10, 64)
 	idToReturn := uint(id64)

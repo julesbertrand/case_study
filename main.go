@@ -43,12 +43,12 @@ func connectDB(dbName string) {
 
 	if err != nil {
 		initDB("root", "JH7WhS6c%%", dbName)
-		fmt.Printf("Succesfully created MySQL database: %v", dbName)
+		fmt.Printf("Succesfully created MySQL database: %v\n", dbName)
 	} else {
-		fmt.Printf("Succesfully connected to MySQL database: %v", dbName)
+		fmt.Printf("Succesfully connected to MySQL database: %v\n", dbName)
 	}
 
-	db.AutoMigrate(&Customer{}, &Plan{})
+	db.AutoMigrate(&Customer{}, &Plan{}, &Subscription{})
 }
 
 func main() {

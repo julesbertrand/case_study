@@ -11,6 +11,7 @@ type Customer struct {
 	Email       string    `json:"email"`
 	CreatedAt   time.Time `json:"createdAt"`
 	CountryCode string    `json:"countryCode"`
+	// Subscriptions []Subscription `json:"subscriptions" gorm:"foreignkey:CustomerID"`
 }
 
 // Plan is a plan that can be subscrpited to by a customer
@@ -25,9 +26,10 @@ type Plan struct {
 
 // Subscription is a link between a customer and a plan
 type Subscription struct {
-	CustomerID uint      `json:"customerId" gorm:"primary_key"`
-	PlanID     uint      `json:"planId" gorm:"primary_key"`
-	CreatedAt  time.Time `json:"creationAt"`
-	EndedAt    time.Time `json:"endedAt"`
-	Status     bool      `json:"status"`
+	SubscriptionID uint      `json:"subscriptionId" gorm:"primary_key"`
+	CustomerID     uint      `json:"customerId"`
+	PlanID         uint      `json:"planId"`
+	CreatedAt      time.Time `json:"creationAt"`
+	EndedAt        time.Time `json:"endedAt"`
+	ActiveStatus   bool      `json:"activeStatus"`
 }

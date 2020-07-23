@@ -90,4 +90,16 @@ var routes = Routes{
 		"DELETE",
 		"/plans/{PlanId}",
 		deletePlan,
+	},
+	Route{
+		"addSubscription",
+		"POST",
+		"/subscriptions",
+		addSubscription,
+	},
+	Route{
+		"getSubscriptions",
+		"GET",
+		"/subscriptions",
+		getSubscriptions,
 	}}

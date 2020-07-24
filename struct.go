@@ -17,11 +17,11 @@ type Customer struct {
 // Plan is a plan that can be subscrpited to by a customer
 type Plan struct {
 	// gorm.Model
-	PlanID       uint      `json:"planId" gorm:"primary_key"`
-	PlanName     string    `json:"name" binding:"required"`
-	Price        float32   `json:"price"`
-	CreationDate time.Time `json:"creationDate"`
-	Frequency    string    `json:"frequency"`
+	PlanID    uint      `json:"planId" gorm:"primary_key"`
+	PlanName  string    `json:"name" binding:"required"`
+	Price     float32   `json:"price"`
+	CreatedAt time.Time `json:"createdAt"`
+	Frequency string    `json:"frequency"`
 }
 
 // Subscription is a link between a customer and a plan
@@ -29,7 +29,7 @@ type Subscription struct {
 	SubscriptionID uint      `json:"subscriptionId" gorm:"primary_key"`
 	CustomerID     uint      `json:"customerId"`
 	PlanID         uint      `json:"planId"`
-	CreatedAt      time.Time `json:"creationAt"`
+	CreatedAt      time.Time `json:"creatednAt"`
 	EndedAt        time.Time `json:"endedAt"`
 	ActiveStatus   bool      `json:"activeStatus"`
 }

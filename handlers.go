@@ -9,6 +9,9 @@ import (
 
 // Customer handlers
 func createCustomer(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	var item Customer
 	json.NewDecoder(r.Body).Decode(&item)
 
@@ -22,26 +25,32 @@ func createCustomer(w http.ResponseWriter, r *http.Request) {
 }
 
 func getCustomers(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	w.Header().Set("Content-Type", "application/json")
 
 	var items []Customer
 
-	filters := r.URL.Query()
-	fmt.Println(filters)
-	if len(filters) != 0 {
-		db.Where(filters).Find(&items)
-		if len(items) == 0 {
-			fmt.Fprintln(w, "No items in database for these filters")
-			return
-		}
-	} else {
-		db.Find(&items)
-	}
+	// filters := getFilters(r.URL.Query())
+	// if len(filters) != 0 {
+	// 	db.Where(filters).Find(&items)
+	// 	if len(items) == 0 {
+	// 		fmt.Fprintln(w, "No items in database for these filters")
+	// 		return
+	// 	}
+	// } else {
+	// 	db.Find(&items)
+	// }
+	db.Find(&items)
 
 	json.NewEncoder(w).Encode(items)
 }
 
 func getCustomer(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	w.Header().Set("Content-Type", "application/json")
 
 	inputItemID := getID(r, "customerId")
@@ -57,6 +66,9 @@ func getCustomer(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateCustomer(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	var item Customer
 	json.NewDecoder(r.Body).Decode(&item)
 	item.CustomerID = getID(r, "customerId")
@@ -70,6 +82,9 @@ func updateCustomer(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteCustomer(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	idToDelete := getID(r, "customerId")
 	var item Customer
 	db.First(&item, idToDelete)
@@ -87,10 +102,13 @@ func deleteCustomer(w http.ResponseWriter, r *http.Request) {
 
 // Plans handlers
 func createPlan(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	var item Plan
 	json.NewDecoder(r.Body).Decode(&item)
 
-	item.CreationDate = time.Now()
+	item.CreatedAt = time.Now()
 	db.Create(&item)
 
 	w.Header().Set("Content-Type", "application/json")
@@ -100,23 +118,32 @@ func createPlan(w http.ResponseWriter, r *http.Request) {
 }
 
 func getPlans(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	w.Header().Set("Content-Type", "application/json")
 
 	var items []Plan
 
-	if filters := r.URL.Query(); len(filters) != 0 {
-		db.Where(filters).Find(&items)
-		if len(items) == 0 {
-			fmt.Fprintln(w, "No items in database corresponding to specified filter(s)")
-		}
-	} else {
-		db.Find(&items)
-	}
+	// filters := getFilters(r.URL.Query())
+	// if len(filters) != 0 {
+	// 	db.Where(filters).Find(&items)
+	// 	if len(items) == 0 {
+	// 		fmt.Fprintln(w, "No items in database for these filters")
+	// 		return
+	// 	}
+	// } else {
+	// 	db.Find(&items)
+	// }
+	db.Find(&items)
 
 	json.NewEncoder(w).Encode(items)
 }
 
 func getPlan(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	w.Header().Set("Content-Type", "application/json")
 
 	inputItemID := getID(r, "planId")
@@ -132,6 +159,9 @@ func getPlan(w http.ResponseWriter, r *http.Request) {
 }
 
 func updatePlan(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	var item Plan
 	json.NewDecoder(r.Body).Decode(&item)
 	item.PlanID = getID(r, "planId")
@@ -145,6 +175,9 @@ func updatePlan(w http.ResponseWriter, r *http.Request) {
 }
 
 func deletePlan(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	idToDelete := getID(r, "planId")
 	var item Plan
 	db.First(&item, idToDelete)
@@ -162,6 +195,9 @@ func deletePlan(w http.ResponseWriter, r *http.Request) {
 
 // Subscriptions handler
 func addSubscription(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	var item Subscription
 	json.NewDecoder(r.Body).Decode(&item)
 
@@ -182,6 +218,9 @@ func deactivateSubscriptions(item Subscription) {
 }
 
 func getSubscriptions(w http.ResponseWriter, r *http.Request) {
+	connectDB("customers_db")
+	defer db.Close()
+
 	w.Header().Set("Content-Type", "application/json")
 	var items []Subscription
 	db.Find(&items)
